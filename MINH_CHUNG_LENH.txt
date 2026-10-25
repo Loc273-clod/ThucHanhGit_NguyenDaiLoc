@@ -1,0 +1,274 @@
+$ git init -b main
+Initialized empty Git repository in /mnt/data/ThucHanhGit_NguyenDaiLoc/.git/
+
+$ git config user.name Nguyen Dai Loc
+
+$ git config user.email student@example.invalid
+
+$ git status --short
+?? README.md
+
+$ git add README.md
+
+$ git status --short
+A  README.md
+
+$ git commit -m Initial README
+[main (root-commit) d6aebfc] Initial README
+ 1 file changed, 3 insertions(+)
+ create mode 100644 README.md
+
+$ git diff
+diff --git a/README.md b/README.md
+index 2457ff4..332a770 100644
+--- a/README.md
++++ b/README.md
+@@ -1,3 +1,6 @@
+ # ThucHanhGit_NguyenDaiLoc
+ 
+ Bai thuc hanh Git - Buoi 4.
++
++## Muc tieu
++Thuc hanh commit, branch, merge, rebase, restore va GitHub.
+
+$ git add .
+
+$ git commit -m Add goals and gitignore
+[main 4e3ad9a] Add goals and gitignore
+ 2 files changed, 6 insertions(+)
+ create mode 100644 .gitignore
+
+$ git commit --amend -m Document goals and ignore rules
+[main 9394252] Document goals and ignore rules
+ Date: Sun Oct 25 03:33:20 2026 +0000
+ 2 files changed, 6 insertions(+)
+ create mode 100644 .gitignore
+
+$ git switch -c feature/web
+Switched to a new branch 'feature/web'
+
+$ git add .
+
+$ git commit -m Add static homepage
+[feature/web e3c54a8] Add static homepage
+ 1 file changed, 1 insertion(+)
+ create mode 100644 index.html
+
+$ git switch main
+Switched to branch 'main'
+
+$ git merge --no-ff feature/web -m Merge homepage feature
+Merge made by the 'ort' strategy.
+ index.html | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 index.html
+
+$ git branch -d feature/web
+Deleted branch feature/web (was e3c54a8).
+
+$ git switch -c temp-rename
+Switched to a new branch 'temp-rename'
+
+$ git branch -m renamed-branch
+
+$ git switch main
+Switched to branch 'main'
+
+$ git branch -d renamed-branch
+Deleted branch renamed-branch (was 0d0b3af).
+
+$ git add .
+
+$ git commit -m Add conflict baseline
+[main 7643f99] Add conflict baseline
+ 1 file changed, 1 insertion(+)
+ create mode 100644 conflict.txt
+
+$ git switch -c feature/conflict
+Switched to a new branch 'feature/conflict'
+
+$ git commit -am Change color in feature
+[feature/conflict 333aae2] Change color in feature
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+$ git switch main
+Switched to branch 'main'
+
+$ git commit -am Change color on main
+[main 2d1e8d1] Change color on main
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+$ git merge feature/conflict
+Auto-merging conflict.txt
+CONFLICT (content): Merge conflict in conflict.txt
+Automatic merge failed; fix conflicts and then commit the result.
+
+$ git add conflict.txt
+
+$ git commit -m Resolve merge conflict
+[main 4223b9d] Resolve merge conflict
+
+$ git branch -d feature/conflict
+Deleted branch feature/conflict (was 333aae2).
+
+$ git switch -c feature/rebase
+Switched to a new branch 'feature/rebase'
+
+$ git add .
+
+$ git commit -m Add rebase example
+[feature/rebase c9842ab] Add rebase example
+ 1 file changed, 1 insertion(+)
+ create mode 100644 rebase.txt
+
+$ git switch main
+Switched to branch 'main'
+
+$ git add .
+
+$ git commit -m Update base for rebase
+[main 2f5b8bc] Update base for rebase
+ 1 file changed, 1 insertion(+)
+ create mode 100644 main-update.txt
+
+$ git switch feature/rebase
+Switched to branch 'feature/rebase'
+
+$ git rebase main
+Rebasing (1/1)
+Successfully rebased and updated refs/heads/feature/rebase.
+
+$ git switch main
+Switched to branch 'main'
+
+$ git merge --ff-only feature/rebase
+Updating 2f5b8bc..01bbe9e
+Fast-forward
+ rebase.txt | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 rebase.txt
+
+$ git branch -d feature/rebase
+Deleted branch feature/rebase (was 01bbe9e).
+
+$ git status --short
+?? scratch.txt
+
+$ git add scratch.txt
+
+$ git restore --staged scratch.txt
+
+$ git restore README.md
+
+$ git show HEAD:README.md
+# ThucHanhGit_NguyenDaiLoc
+
+Bai thuc hanh Git - Buoi 4.
+
+## Muc tieu
+Thuc hanh commit, branch, merge, rebase, restore va GitHub.
+
+$ git log --oneline -- README.md
+9394252 Document goals and ignore rules
+d6aebfc Initial README
+
+$ git grep Git
+README.md:# ThucHanhGit_NguyenDaiLoc
+README.md:Bai thuc hanh Git - Buoi 4.
+README.md:Thuc hanh commit, branch, merge, rebase, restore va GitHub.
+index.html:<!doctype html><html lang="vi"><meta charset="utf-8"><title>Thuc hanh Git</title><h1>Thuc hanh Git - Nguyen Dai Loc</h1><p>GitHub Pages demo.</p></html>
+
+$ git log --oneline --graph --all
+* 01bbe9e Add rebase example
+* 2f5b8bc Update base for rebase
+*   4223b9d Resolve merge conflict
+|\  
+| * 333aae2 Change color in feature
+* | 2d1e8d1 Change color on main
+|/  
+* 7643f99 Add conflict baseline
+*   0d0b3af Merge homepage feature
+|\  
+| * e3c54a8 Add static homepage
+|/  
+* 9394252 Document goals and ignore rules
+* d6aebfc Initial README
+
+$ git branch -a
+* main
+
+$ git add stash-demo.txt
+
+$ git stash push -m Demo stash
+Saved working directory and index state On main: Demo stash
+
+$ git stash pop
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	new file:   stash-demo.txt
+
+Dropped refs/stash@{0} (964b807dc6a97c0f4fc04063bd4d2273b42e9e07)
+
+$ git add .
+
+$ git commit -m Record stash example
+[main 24bec74] Record stash example
+ 1 file changed, 1 insertion(+)
+ create mode 100644 stash-demo.txt
+
+$ git config alias.st status
+
+$ git config alias.lg log --oneline --graph --all
+
+$ git st
+On branch main
+nothing to commit, working tree clean
+
+$ git lg
+* 24bec74 Record stash example
+* 01bbe9e Add rebase example
+* 2f5b8bc Update base for rebase
+*   4223b9d Resolve merge conflict
+|\  
+| * 333aae2 Change color in feature
+* | 2d1e8d1 Change color on main
+|/  
+* 7643f99 Add conflict baseline
+*   0d0b3af Merge homepage feature
+|\  
+| * e3c54a8 Add static homepage
+|/  
+* 9394252 Document goals and ignore rules
+* d6aebfc Initial README
+
+$ git tag v1.0.0
+
+$ git add .
+
+$ git commit -m Finalize README and completion guide
+[main 2dfaf1e] Finalize README and completion guide
+ 2 files changed, 45 insertions(+), 3 deletions(-)
+ create mode 100644 HUONG_DAN_HOAN_THANH.md
+
+$ git log --oneline --graph --all
+* 2dfaf1e Finalize README and completion guide
+* 24bec74 Record stash example
+* 01bbe9e Add rebase example
+* 2f5b8bc Update base for rebase
+*   4223b9d Resolve merge conflict
+|\  
+| * 333aae2 Change color in feature
+* | 2d1e8d1 Change color on main
+|/  
+* 7643f99 Add conflict baseline
+*   0d0b3af Merge homepage feature
+|\  
+| * e3c54a8 Add static homepage
+|/  
+* 9394252 Document goals and ignore rules
+* d6aebfc Initial README
+
+$ git status
+On branch main
+nothing to commit, working tree clean
